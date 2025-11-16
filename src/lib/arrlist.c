@@ -45,9 +45,9 @@
   void NAME##_remove(NAME *list, size_t index) {                               \
     if (list->len < index)                                                     \
       return;                                                                  \
-    memcpy((((char *)list) + (index * sizeof(TYPE))),                          \
-           (((char *)list) + ((index + 1) * sizeof(TYPE))),                    \
-           list->len - (index + 1));                                           \
+    for (size_t i = index; i + 1 < list->len; i++) {                           \
+      list->list[i] = list->list[i + 1];                                       \
+    }                                                                          \
     list->len--;                                                               \
   }                                                                            \
                                                                                \
@@ -59,7 +59,8 @@
                                                                                \
   void NAME##_shrink_to_fit(NAME *list) {                                      \
     size_t new_capacity = list->max_capacity;                                  \
-    while (new_capacity >= list->len && new_capacity >= 4) {                   \
+    while (new_capacity >= list->len &&                                        \
+           new_capacity >= ARRAYLIST_INITIAL_CAPACITY * 2) {                   \
       new_capacity /= 2;                                                       \
     }                                                                          \
     if (new_capacity == list->max_capacity)                                    \
@@ -68,6 +69,7 @@
     memcpy(new_list, list->list, list->len);                                   \
     free(list->list);                                                          \
     list->list = new_list;                                                     \
+    list->max_capacity = new_capacity;                                         \
   }                                                                            \
                                                                                \
   void NAME##_free(NAME *list) {                                               \
