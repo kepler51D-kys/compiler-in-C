@@ -1,4 +1,9 @@
+#include <lexer/tokenizer.c>
 #include <stdio.h>
+
+FILE *f;
+
+int reader() { return fgetc(f); }
 
 int main(int argc, char **argv) {
   if (argc == 1) {
@@ -9,14 +14,14 @@ int main(int argc, char **argv) {
     return 0;
   }
   char *input_file = argv[1];
-  FILE *f = fopen(input_file, "r");
+  f = fopen(input_file, "r");
   if (f == NULL) {
     printf("Failed to open file.");
     return 0;
   }
-  int c;
-  while ((c = fgetc(f)) != EOF) {
-    printf("%c", c);
+  TokenList *list = tokenize(&reader);
+  for (int i = 0; i < list->len; i++) {
+    printf("%d ", list->list[i].token);
   }
   fclose(f);
   return 0;

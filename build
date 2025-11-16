@@ -1,2 +1,2 @@
 mkdir dist
-gcc -o dist/main src/main.c
+gcc -Isrc -o dist/main src/main.c
