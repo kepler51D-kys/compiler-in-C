@@ -1,0 +1,28 @@
+struct test1 {
+    public i32 varTest;
+}
+struct test {
+    public i32 testvar;
+
+    public i32 funcTest(i32 mult) {
+        return test * mult;
+    }
+    public u8 retChar() {
+        return 5;
+    }
+}
+enum kys {
+    test,
+    kys,
+    yessss,
+}
+
+struct program {
+    public void main() {
+        i32 temp = 0;
+        for (i32 i = 0; i < 10; i++) {
+            temp++;
+        }
+        kys tttt = kys.test;
+    }
+}
